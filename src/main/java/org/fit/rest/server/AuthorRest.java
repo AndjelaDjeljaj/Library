@@ -36,7 +36,7 @@ public class AuthorRest {
 		}
 		return Response.ok().entity(a).build();
 	}
-	
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/getAllAuthors")
@@ -44,4 +44,5 @@ public class AuthorRest {
 		List<Author> authors = authorService.getAllAuthors();
 		return Response.ok().entity(authors).build();
 	}
+
 }

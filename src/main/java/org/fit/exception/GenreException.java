@@ -1,10 +1,10 @@
 package org.fit.exception;
 
-public class BookException extends Exception{
+public class GenreException extends Exception{
 
 	private String message;
 
-	public BookException(String message) {
+	public GenreException(String message) {
 		super(message);
 		this.message = message;
 	}
@@ -16,5 +16,6 @@ public class BookException extends Exception{
 	public void setMessage(String message) {
 		this.message = message;
 	}
+	
 	
 }
