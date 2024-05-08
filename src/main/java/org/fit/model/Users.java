@@ -1,5 +1,6 @@
 package org.fit.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -34,6 +35,9 @@ public class Users {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "users_id")
 	private Set<PhoneNumber> phoneNumbers;
+
+	@OneToMany(mappedBy = "user")
+	private Set<Loan> loans = new HashSet<>();
 
 	public Long getId() {
 		return id;
