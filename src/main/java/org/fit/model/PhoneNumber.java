@@ -35,8 +35,6 @@ public class PhoneNumber {
 		this.id = id;
 	}
 
-
-
 	public Users getUsers() {
 		return users;
 	}
@@ -49,6 +47,5 @@ public class PhoneNumber {
 	public String toString() {
 		return "PhoneNumber {id=" + id + ", users=" + users + "}";
 	}
-	
 	
 }

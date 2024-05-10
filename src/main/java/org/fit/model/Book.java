@@ -3,11 +3,14 @@ package org.fit.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
@@ -25,12 +28,13 @@ public class Book {
 	@JoinColumn(name = "author_id")
 	private Author author;
 
-	@ManyToOne
-	@JoinColumn(name = "genre_id")
-	private Genre genre;
-	
-    @OneToMany(mappedBy = "book")
-    private Set<Loan> loans = new HashSet<>();
+	@ManyToMany(cascade = {CascadeType.ALL})
+	@JoinTable(name = "Book_genre", joinColumns = { @JoinColumn(name = "book_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "genre_id") })
+	Set<Genre> genres = new HashSet<>();
+
+	@OneToMany(mappedBy = "book")
+	private Set<Loan> loans = new HashSet<>();
 
 	public Long getId() {
 		return id;
@@ -72,20 +76,27 @@ public class Book {
 		this.author = author;
 	}
 
-	public Genre getGenre() {
-		return genre;
+
+	public Set<Genre> getGenres() {
+		return genres;
 	}
 
-	public void setGenre(Genre genre) {
-		this.genre = genre;
+	public void setGenres(Set<Genre> genres) {
+		this.genres = genres;
+	}
+
+	public Set<Loan> getLoans() {
+		return loans;
+	}
+
+	public void setLoans(Set<Loan> loans) {
+		this.loans = loans;
 	}
 
 	@Override
 	public String toString() {
 		return "Book {id=" + id + ", title=" + title + ", publicationYear=" + publicationYear + ", quantity=" + quantity
-				+ ", author=" + author + ", genre=" + genre + "}";
+				+ ", author=" + author + ", genre=" + genres + "}";
 	}
 
-	
-	
 }

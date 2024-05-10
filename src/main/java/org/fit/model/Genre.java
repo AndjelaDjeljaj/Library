@@ -1,11 +1,14 @@
 package org.fit.model;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 
@@ -20,6 +23,9 @@ public class Genre {
 
 	public static final String GET_ALL_GENRES = "getAllGenres";
 
+	@ManyToMany(mappedBy = "genres")
+	private Set<Book> books = new HashSet<>();
+	
 	public Long getId() {
 		return id;
 	}
