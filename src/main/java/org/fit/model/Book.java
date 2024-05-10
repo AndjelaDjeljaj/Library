@@ -12,11 +12,16 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 
 @Entity
+@NamedQueries({ @NamedQuery(name = Book.GET_ALL_BOOKS, query = "Select b from Book b")})
 public class Book {
 
+	public static final String GET_ALL_BOOKS = "getAllBooks";
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_seq")
 	private Long id;

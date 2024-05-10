@@ -22,6 +22,8 @@ public class PhoneNumber {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "phoneNumber_seq")
     private Long id;
+    
+    private String number;
 
     @ManyToOne
     @JsonIgnore
@@ -43,9 +45,19 @@ public class PhoneNumber {
 		this.users = users;
 	}
 
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
 	@Override
 	public String toString() {
-		return "PhoneNumber {id=" + id + ", users=" + users + "}";
+		return "PhoneNumber [id=" + id + ", number=" + number + ", users=" + users + "]";
 	}
+
+
 	
 }
