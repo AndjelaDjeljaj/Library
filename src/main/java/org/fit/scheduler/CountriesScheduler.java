@@ -19,6 +19,7 @@ public class CountriesScheduler {
 	@Inject
 	private CountryService countryService;
 	
+
 	@Scheduled(cron = "0 */30 * * * *")
 	public void getAllCounries() {
 		List<Country> countries = countryClient.getAll();
