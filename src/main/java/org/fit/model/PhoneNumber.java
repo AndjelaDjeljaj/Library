@@ -29,6 +29,10 @@ public class PhoneNumber {
     @JsonIgnore
     private Users users;
 
+	public PhoneNumber() {
+		super();
+	}
+
 	public Long getId() {
 		return id;
 	}

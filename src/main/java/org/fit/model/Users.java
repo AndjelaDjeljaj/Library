@@ -1,7 +1,11 @@
 package org.fit.model;
 
+
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -31,13 +35,18 @@ public class Users {
 	private String lastName;
 
 	private String email;
+	
+	private Date birthDate;
+	
+	private String jmbg;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "users_id")
+	@JoinColumn(name = "user_id")
 	private Set<PhoneNumber> phoneNumbers;
 
-	@OneToMany(mappedBy = "user")
-	private Set<Loan> loans = new HashSet<>();
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
+	private Set<Loan> loans;
 
 	public Long getId() {
 		return id;
@@ -77,6 +86,31 @@ public class Users {
 
 	public void setPhoneNumbers(Set<PhoneNumber> phoneNumbers) {
 		this.phoneNumbers = phoneNumbers;
+	}
+	
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public String getJmbg() {
+		return jmbg;
+	}
+
+	public void setJmbg(String jmbg) {
+		this.jmbg = jmbg;
+	}
+
+	public Set<Loan> getLoans() {
+		return loans;
+	}
+
+	public void setLoans(Set<Loan> loans) {
+		this.loans = loans;
 	}
 
 	@Override
@@ -118,8 +152,10 @@ public class Users {
 
 	@Override
 	public String toString() {
-		return "Users [id=" + id + ", name=" + name + ", lastName=" + lastName + ", email=" + email + ", phoneNumbers="
-				+ phoneNumbers + "]";
+		return "Users [id=" + id + ", name=" + name + ", lastName=" + lastName + ", email=" + email + ", birthDate="
+				+ birthDate + ", jmbg=" + jmbg + ", phoneNumbers=" + phoneNumbers + ", loans=" + loans + "]";
 	}
+
+
 
 }

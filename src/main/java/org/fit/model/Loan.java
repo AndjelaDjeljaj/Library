@@ -26,10 +26,8 @@ public class Loan {
 	@JoinColumn(name = "user_id")
 	private Users user;
 
-	@Temporal(TemporalType.DATE)
 	private Date loanDate;
 
-	@Temporal(TemporalType.DATE)
 	private Date returnDate;
 
 	private boolean returned;
