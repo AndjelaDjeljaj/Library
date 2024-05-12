@@ -10,7 +10,6 @@ import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.core.Response;
 
 @Dependent
 public class AuthorService {

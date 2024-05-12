@@ -20,7 +20,7 @@ public class CountriesScheduler {
 	private CountryService countryService;
 	
 
-	@Scheduled(cron = "0 */30 * * * *")
+	@Scheduled(every = "60s")
 	public void getAllCounries() {
 		List<Country> countries = countryClient.getAll();
 		countryService.saveCountries(countries);
