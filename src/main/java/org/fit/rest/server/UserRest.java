@@ -30,7 +30,7 @@ public class UserRest {
 	public Response createUser(Users user) {
 		Users u = null;
 		try {
-			u = userService.createUser(u);
+			u = userService.createUser(user);
 			return Response.status(Status.CREATED).entity(u).build();
 		} catch (UserException e) {
 			return Response.status(Status.CONFLICT).entity(e.getMessage()).build();
