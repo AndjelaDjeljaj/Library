@@ -10,9 +10,11 @@ import org.jboss.resteasy.reactive.RestResponse.Status;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -45,4 +47,15 @@ public class UserRest {
 		return Response.ok().entity(users).build();
 	}
 	
+	@DELETE
+	@Path("/deleteUser/{userId}")
+	@Operation(summary = "Delete user by ID", description = "Deletes a user based on the provided user ID.")
+	public Response deleteUser(@PathParam("userId") Long userId) {
+		try {
+			userService.deleteUserById(userId);
+			return Response.status(Status.OK).build();
+		} catch (UserException e) {
+			return Response.status(Status.NOT_FOUND).entity(e.getMessage()).build();
+		}
+	}
 }

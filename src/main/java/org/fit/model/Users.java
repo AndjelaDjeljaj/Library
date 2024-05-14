@@ -2,7 +2,6 @@ package org.fit.model;
 
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -40,12 +39,13 @@ public class Users {
 	
 	private String jmbg;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	private Set<PhoneNumber> phoneNumbers;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
+	@JsonIgnore
 	private Set<Loan> loans;
 
 	public Long getId() {

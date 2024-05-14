@@ -13,11 +13,11 @@ import jakarta.persistence.NamedQuery;
 
 @Entity
 @NamedQueries({
-    @NamedQuery(name = PhoneNumber.GET_ALL_FOR_USER, query = "SELECT n FROM PhoneNumber n WHERE n.users.id = :id")
+    @NamedQuery(name = PhoneNumber.GET_ALL_PHONES_FOR_USER, query = "SELECT n FROM PhoneNumber n WHERE n.users.id = :id")
 })
 public class PhoneNumber {
 
-    public static final String GET_ALL_FOR_USER = "getAllPhonesForUser";
+    public static final String GET_ALL_PHONES_FOR_USER = "getAllPhonesForUser";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "phoneNumber_seq")
@@ -26,6 +26,7 @@ public class PhoneNumber {
     private String number;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     @JsonIgnore
     private Users users;
 

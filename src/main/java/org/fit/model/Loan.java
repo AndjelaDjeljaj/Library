@@ -3,26 +3,32 @@ package org.fit.model;
 import java.sql.Date;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 @Entity
+@NamedQueries({ @NamedQuery(name = Loan.GET_ALL_LOANS, query = "Select l from Loan l") })
 public class Loan {
+
+	public static final String GET_ALL_LOANS = "getAllLoans";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "loan_seq")
 	private Long id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER) //
 	@JoinColumn(name = "book_id")
 	private Book book;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	private Users user;
 
@@ -31,6 +37,8 @@ public class Loan {
 	private Date returnDate;
 
 	private boolean returned;
+	
+	private double totalPrice;
 
 	public Long getId() {
 		return id;
@@ -80,10 +88,21 @@ public class Loan {
 		this.returned = returned;
 	}
 
+	
+	public double getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
 	@Override
 	public String toString() {
-		return "Loan {id=" + id + ", book=" + book + ", user=" + user + ", loanDate=" + loanDate + ", returnDate="
-				+ returnDate + ", returned=" + returned + "}";
+		return "Loan [id=" + id + ", book=" + book + ", user=" + user + ", loanDate=" + loanDate + ", returnDate="
+				+ returnDate + ", returned=" + returned + ", totalPrice=" + totalPrice + "]";
 	}
+
+
 
 }

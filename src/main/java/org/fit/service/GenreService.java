@@ -32,4 +32,13 @@ public class GenreService {
 		List<Genre> genres = em.createNamedQuery(Genre.GET_ALL_GENRES, Genre.class).getResultList();
 		return genres;
 	}
+	
+	@Transactional
+	public void deleteGenreById(Long genreId) throws GenreException{
+		Genre genre = em.find(Genre.class, genreId);
+		if(genre == null) {
+			throw new GenreException("Genre with id " + genreId + " not found.");
+		}
+		em.remove(genre);
+	}
 }

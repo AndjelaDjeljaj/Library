@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,7 +24,7 @@ public class Genre {
 
 	public static final String GET_ALL_GENRES = "getAllGenres";
 
-	@ManyToMany(mappedBy = "genres")
+	@ManyToMany(mappedBy = "genres", cascade = CascadeType.ALL)
 	private Set<Book> books = new HashSet<>();
 	
 	public Long getId() {

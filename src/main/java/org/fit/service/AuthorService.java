@@ -32,4 +32,13 @@ public class AuthorService {
 		List<Author> authors = em.createNamedQuery(Author.GET_ALL_AUTHORS, Author.class).getResultList();
 		return authors;
 	}
+	
+	@Transactional
+	public void deleteAuthorById(Long authorId) throws AuthorException {
+		Author author = em.find(Author.class, authorId);
+		if(author == null) {
+			throw new AuthorException("Author with id " + authorId + " not found.");
+		}
+	    em.remove(author);
+	}
 }

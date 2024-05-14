@@ -10,9 +10,11 @@ import org.jboss.resteasy.reactive.RestResponse.Status;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -43,6 +45,18 @@ public class AuthorRest {
 	public Response getAllAuthors() {
 		List<Author> authors = authorService.getAllAuthors();
 		return Response.ok().entity(authors).build();
+	}
+	
+	@DELETE
+	@Path("/deleteAuthor/{authorId}")
+	@Operation(summary = "Delete author by ID", description = "Deletes an author based on the provided author ID.")
+	public Response deleteAuthor(@PathParam("authorId") Long authorId) {
+	    try {
+	        authorService.deleteAuthorById(authorId);
+	        return Response.status(Status.OK).build();
+	    } catch (AuthorException e) {
+	        return Response.status(Status.NOT_FOUND).entity(e.getMessage()).build();
+	    }
 	}
 
 }

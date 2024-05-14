@@ -3,8 +3,11 @@ package org.fit.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,17 +31,19 @@ public class Book {
 	private String title;
 	private int publicationYear;
 	private int quantity;
+	private double pricePerMonth;
 
 	@ManyToOne
 	@JoinColumn(name = "author_id")
 	private Author author;
 
-	@ManyToMany(cascade = {CascadeType.ALL})
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "Book_genre", joinColumns = { @JoinColumn(name = "book_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "genre_id") })
 	Set<Genre> genres = new HashSet<>();
 
-	@OneToMany(mappedBy = "book")
+	@OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+	@JsonIgnore
 	private Set<Loan> loans = new HashSet<>();
 
 	public Long getId() {
@@ -81,6 +86,13 @@ public class Book {
 		this.author = author;
 	}
 
+	public double getPricePerMonth() {
+		return pricePerMonth;
+	}
+
+	public void setPricePerMonth(double pricePerMonth) {
+		this.pricePerMonth = pricePerMonth;
+	}
 
 	public Set<Genre> getGenres() {
 		return genres;
@@ -100,8 +112,11 @@ public class Book {
 
 	@Override
 	public String toString() {
-		return "Book {id=" + id + ", title=" + title + ", publicationYear=" + publicationYear + ", quantity=" + quantity
-				+ ", author=" + author + ", genre=" + genres + "}";
+		return "Book [id=" + id + ", title=" + title + ", publicationYear=" + publicationYear + ", quantity=" + quantity
+				+ ", pricePerMonth=" + pricePerMonth + ", author=" + author + ", genres=" + genres + ", loans=" + loans
+				+ "]";
 	}
+
+
 
 }

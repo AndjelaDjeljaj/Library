@@ -44,7 +44,7 @@ public class UserService {
 
 	@Transactional
 	public List<PhoneNumber> getAllForUsers(Users u) {
-		return em.createNamedQuery(PhoneNumber.GET_ALL_FOR_USER, PhoneNumber.class).setParameter("id", u.getId())
+		return em.createNamedQuery(PhoneNumber.GET_ALL_PHONES_FOR_USER, PhoneNumber.class).setParameter("id", u.getId())
 				.getResultList();
 	}
 	
@@ -59,4 +59,12 @@ public class UserService {
 		return users;
 	}
 	
+	@Transactional
+	public void deleteUserById(Long userId) throws UserException {
+	    Users user = em.find(Users.class, userId);
+	    if (user == null) {
+	        throw new UserException("User with id " + userId + " not found.");
+	    }
+	    em.remove(user);
+	}
 }
