@@ -24,13 +24,19 @@ public class LoanService {
 		
 		Users user = em.find(Users.class, userId);
 		if (user == null) {
-			throw new LoanException("User sa id-jem " + userId + " nije pronadjen.");
+			throw new LoanException("User with id " + userId + " not found.");
 		}
 		
 		Book book = em.find(Book.class, bookId);
 		if (book == null) {
-			throw new LoanException("Knjiga sa id-jem " + bookId + " nije pronadjen.");
+			throw new LoanException("Book with id " + bookId + " not found.");
 		}
+		
+		if(book.getQuantity() <= 0) {
+			throw new LoanException("Book with id " + bookId + " is out of stock");
+		}
+		
+		book.setQuantity(book.getQuantity() - 1);
 		
 		l.setBook(book);
 		l.setUser(user);		

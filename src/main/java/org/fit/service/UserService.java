@@ -67,4 +67,18 @@ public class UserService {
 	    }
 	    em.remove(user);
 	}
+	
+	@Transactional
+	public Users updateUserEmail(Long userId, String newEmail) throws UserException{
+		Users user = em.find(Users.class, userId);
+		if(user == null) {
+			throw new UserException("user with id " + userId + " not found.");
+		}
+		user.setEmail(newEmail);
+		return em.merge(user);
+	}
+	
+	
+
+	
 }

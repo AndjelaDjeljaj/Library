@@ -13,6 +13,7 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -64,4 +65,25 @@ public class BookRest {
 			return Response.status(Status.NOT_FOUND).entity(e.getMessage()).build();
 		}
 	}
+	
+	@PUT
+	@Path("updateBookQuantityByName/{title}/{quantityToAdd}")
+	@Operation(summary = "Update book quantity by title.", description = "Adds quantity to the book's existing quantity by title.")
+	public Response updateBookQuantityByName(@PathParam("title") String title, @PathParam("quantityToAdd") int quantityToAdd) {
+		try {
+			bookService.updateBookQuantityByTitle(title, quantityToAdd);
+			return Response.status(Status.OK).build();
+		} catch (BookException e) {
+			return Response.status(Status.NOT_FOUND).entity(e.getMessage()).build();
+		} catch (Exception e) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Failed to update book quantity: " + e.getMessage()).build();
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
 }

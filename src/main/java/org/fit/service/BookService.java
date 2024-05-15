@@ -64,6 +64,21 @@ public class BookService {
 		em.remove(book);
 	}
 	
+	@Transactional
+	public void updateBookQuantityByTitle(String bookTitle, int quantityToAdd) throws BookException{
+		try {
+			Book book = em.createNamedQuery(Book.GET_BOOK_BY_TITLE, Book.class).setParameter("title", bookTitle).getSingleResult();
+			if(book != null) {
+				book.setQuantity(book.getQuantity() + quantityToAdd);
+				em.merge(book);
+			}else {
+				throw new BookException("No book fount with the title: " + bookTitle);
+			}
+		} catch (Exception e) {
+			throw new BookException("Error updating book quantity: " + e.getMessage());
+		}
+	}
+	
 	
 	
 	

@@ -20,10 +20,12 @@ import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 
 @Entity
-@NamedQueries({ @NamedQuery(name = Book.GET_ALL_BOOKS, query = "Select b from Book b")})
+@NamedQueries({ @NamedQuery(name = Book.GET_ALL_BOOKS, query = "Select b from Book b"),
+@NamedQuery(name = Book.GET_BOOK_BY_TITLE, query = "Select b from Book b where b.title = :title")})
 public class Book {
 
 	public static final String GET_ALL_BOOKS = "getAllBooks";
+	public static final String GET_BOOK_BY_TITLE = "getBookByTitle";
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_seq")
