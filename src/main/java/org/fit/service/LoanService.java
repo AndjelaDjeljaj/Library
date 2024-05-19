@@ -1,5 +1,7 @@
 package org.fit.service;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.fit.enums.LoanStatus;
@@ -8,6 +10,7 @@ import org.fit.model.Book;
 import org.fit.model.Loan;
 import org.fit.model.Users;
 
+import io.quarkus.scheduler.Scheduled;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
@@ -39,7 +42,14 @@ public class LoanService {
 		book.setQuantity(book.getQuantity() - 1);
 		
 		l.setBook(book);
-		l.setUser(user);		
+		l.setUser(user);	
+		
+		
+		///
+		l.setLoanDate(Date.valueOf(LocalDate.now()));
+		
+		///////
+		l.calculateTotalprice();
 		
 		List<Loan> loans = getAllLoans();
 		
@@ -62,6 +72,20 @@ public class LoanService {
 			throw new LoanException("Loan with Id " + loandId + " not found.");
 		}
 		em.remove(loan);
+	}
+	
+	@Scheduled(cron = "0 0 0 * * ?") //Runs daily at midnight
+	@Transactional
+	public void checkAndUpdateReturnStatus() {
+		List<Loan> loans = getAllLoans();
+		LocalDate today = LocalDate.now();
+		
+		for (Loan loan : loans) {
+			if (loan.getReturnDate() != null && loan.getReturnDate().toLocalDate().isBefore(today) && !loan.isReturned()) {
+				loan.setReturned(true);
+				em.merge(loan);
+			}
+		}
 	}
 	
 	
