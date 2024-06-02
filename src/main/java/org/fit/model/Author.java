@@ -19,7 +19,7 @@ import jakarta.persistence.OneToMany;
 public class Author {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "author_id")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "author_seq")
 	private Long id;
 	private String name;
 	private String lastName;

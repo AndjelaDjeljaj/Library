@@ -28,7 +28,7 @@ public class GenreRest {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/createGenre")
-	@Operation(summary = "Web servis koji kreira novi zanr.", description = "Zanr mora biti unikatan.")
+	@Operation(summary = "Web service that creates a new genre.", description = "Genre must be unique.")
 	public Response createGenre(Genre genre) {
 		Genre g = null;
 		try {

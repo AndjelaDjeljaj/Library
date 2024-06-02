@@ -2,10 +2,15 @@ package org.fit.model;
 
 import java.util.Date;
 
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToOne;
 
 
 @Entity
@@ -18,13 +23,16 @@ public class IPLog {
 	private String ipType;
 	private Date createdDate;
 
+	
+	
 	public IPLog() {
 		super();
 	}
+	
 
-	public IPLog(Long id, String ipString, String ipType, Date createdDate) {
+
+	public IPLog(String ipString, String ipType, Date createdDate) {
 		super();
-		this.id = id;
 		this.ipString = ipString;
 		this.ipType = ipType;
 		this.createdDate = createdDate;
@@ -61,6 +69,9 @@ public class IPLog {
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
+
+
+
 
 
 	@Override

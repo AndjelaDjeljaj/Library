@@ -26,7 +26,7 @@ public class Loan {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "loan_seq")
 	private Long id;
 
-	@ManyToOne(fetch = FetchType.EAGER) //
+	@ManyToOne(fetch = FetchType.EAGER) 
 	@JoinColumn(name = "book_id")
 	private Book book;
 
@@ -107,18 +107,16 @@ public class Loan {
 				+ returnDate + ", returned=" + returned + ", totalPrice=" + totalPrice + "]";
 	}
 
-	//////////////////////////
+
 	public void calculateTotalprice() {
 		LocalDate startDate = loanDate.toLocalDate();
-		LocalDate endDate;     
-		if (returnDate != null) {
-	        endDate = returnDate.toLocalDate();
-	    } else {
-	        endDate = LocalDate.now();
-	    }
+		LocalDate endDate = returnDate.toLocalDate();     
+		
 		Long days = ChronoUnit.DAYS.between(startDate, endDate);
 		int months = (int) Math.ceil(days / 30.0);
 		this.totalPrice = book.getPricePerMonth() * months;
 	}
 
+	
+	
 }

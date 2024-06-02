@@ -1,15 +1,14 @@
 package org.fit.service;
 
+
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 
 import org.fit.enums.UserStatus;
 import org.fit.exception.UserException;
+import org.fit.model.IPLog;
 import org.fit.model.PhoneNumber;
 import org.fit.model.Users;
-
-import io.quarkus.security.User;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
@@ -21,13 +20,17 @@ public class UserService {
 	@Inject
 	private EntityManager em;
 
+	
+	//
 	@Transactional
-	public Users createUser(Users u) throws UserException{
+	public Users createUser(Users u, IPLog ipLog) throws UserException{
 		List<Users> users = getAllUsers();
 		
 		if (users.contains(u)) {
 			throw new UserException(UserStatus.EXISTS.getLabel());
 		}
+
+		u.setIpLog(ipLog);
 		return em.merge(u);
 	}
 
@@ -78,6 +81,26 @@ public class UserService {
 		return em.merge(user);
 	}
 	
+	
+//	@Transactional
+//	public Users createUserWithPicture(MultipartBody multipartBody) throws UserException{
+//		try {
+//			Users user = multipartBody.getUser();
+//			byte[] picture = multipartBody.getPicture();
+//			
+//			if (user == null || picture == null) {
+//				throw new IllegalArgumentException("User or picture data is missing.");
+//			}
+//			
+//			
+//			user.setPicture(picture);
+//			em.merge(user);
+//			
+//			return user;
+//		} catch (Exception e) {
+//			throw new UserException("Failed to create user with picture");
+//		}
+//	}
 	
 
 	

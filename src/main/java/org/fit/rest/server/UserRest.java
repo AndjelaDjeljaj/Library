@@ -1,10 +1,14 @@
 package org.fit.rest.server;
 
+import java.util.Date;
 import java.util.List;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.fit.exception.UserException;
+import org.fit.model.IPLog;
 import org.fit.model.Users;
+import org.fit.rest.client.IPClient;
 import org.fit.service.UserService;
 import org.jboss.resteasy.reactive.RestResponse.Status;
 
@@ -25,20 +29,40 @@ public class UserRest {
 
 	@Inject
 	private UserService userService;
+	
+	@Inject
+	@RestClient
+	private IPClient ipClient;
 
+	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/createUser")
-	@Operation(summary = "Web servis koji kreira novog usera.", description = "User mora biti unikatan.")
+	@Operation(summary = "Web service that creates a new user.", description = "User must be unique.")
 	public Response createUser(Users user) {
 		Users u = null;
 		try {
-			u = userService.createUser(user);
+			IPLog ipLog = ipClient.getIP();
+			ipLog.setCreatedDate(new Date());
+			u = userService.createUser(user, ipLog);
 			return Response.status(Status.CREATED).entity(u).build();
 		} catch (UserException e) {
 			return Response.status(Status.CONFLICT).entity(e.getMessage()).build();
 		}
 	}
+	
+//	@POST
+//	@Path("/createWithPicture")
+//	@Consumes(MediaType.MULTIPART_FORM_DATA)
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public Response addUserWithPicture(@MultipartForm MultipartBody multipartBody) {
+//		try {
+//			Users user = userService.createUserWithPicture(multipartBody);
+//			return Response.ok().entity(user).build();
+//		} catch (Exception e) {
+//			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+//		}
+//	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -87,8 +111,6 @@ public class UserRest {
 		}
 	}
 	
-	
-
 	
 	
 }

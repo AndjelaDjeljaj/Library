@@ -29,7 +29,7 @@ public class LoanRest {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/createLoan")
-	@Operation(summary = "Web servis koji kre.", description = ".")
+	@Operation(summary = "Web service that creates a loan.")
 	public Response createLoan(CreateLoanRequest loanRequest) {
 		try {
 			Loan loan = loanRequest.getLoan();

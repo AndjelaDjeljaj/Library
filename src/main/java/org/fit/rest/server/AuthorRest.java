@@ -28,7 +28,7 @@ public class AuthorRest {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/createAuthor")
-	@Operation(summary = "Web servis koji kreira novog autora.", description = "Autor mora biti unikatan.")
+	@Operation(summary = "Web service that creates a new author.", description = "Author must be unique.")
 	public Response createAuthor(Author author) {
 		Author a = null;
 		try {

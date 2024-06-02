@@ -29,7 +29,7 @@ public class BookRest {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/createBook")
-	@Operation(summary = "Web servis koji kreira novu knjigu.", description = "Knjiga mora biti unikatna.")
+	@Operation(summary = "Web service that creates a new book.", description = "Book must be unique..")
 	public Response createBook(CreateBookRequest bookRequest) {
 		
 		try {

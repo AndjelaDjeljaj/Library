@@ -13,9 +13,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = Users.GET_ALL_USERS, query = "Select u from Users u"),
@@ -38,6 +40,10 @@ public class Users {
 	private Date birthDate;
 	
 	private String jmbg;
+	
+//	@Lob
+//	@JsonIgnore
+//	private byte[] image;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
@@ -47,6 +53,11 @@ public class Users {
 	@JoinColumn(name = "user_id")
 	@JsonIgnore
 	private Set<Loan> loans;
+	
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JsonIgnore
+	private IPLog ipLog;
 
 	public Long getId() {
 		return id;
@@ -112,6 +123,23 @@ public class Users {
 	public void setLoans(Set<Loan> loans) {
 		this.loans = loans;
 	}
+
+
+//	public byte[] getImage() {
+//		return image;
+//	}
+//
+//	public void setImage(byte[] image) {
+//		this.image = image;
+//	}
+
+	public IPLog getIpLog() {
+		return ipLog;
+	}
+
+    public void setIpLog(IPLog ipLog) {
+        this.ipLog = ipLog;
+    }
 
 	@Override
 	public int hashCode() {
