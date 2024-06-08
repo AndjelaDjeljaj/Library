@@ -21,9 +21,8 @@ public class UserService {
 	private EntityManager em;
 
 	
-	//
 	@Transactional
-	public Users createUser(Users u, IPLog ipLog) throws UserException{
+	public Users createUser(Users u, IPLog ipLog, byte[] image) throws UserException{
 		List<Users> users = getAllUsers();
 		
 		if (users.contains(u)) {
@@ -31,6 +30,7 @@ public class UserService {
 		}
 
 		u.setIpLog(ipLog);
+		u.setImage(image);
 		return em.merge(u);
 	}
 
@@ -82,25 +82,7 @@ public class UserService {
 	}
 	
 	
-//	@Transactional
-//	public Users createUserWithPicture(MultipartBody multipartBody) throws UserException{
-//		try {
-//			Users user = multipartBody.getUser();
-//			byte[] picture = multipartBody.getPicture();
-//			
-//			if (user == null || picture == null) {
-//				throw new IllegalArgumentException("User or picture data is missing.");
-//			}
-//			
-//			
-//			user.setPicture(picture);
-//			em.merge(user);
-//			
-//			return user;
-//		} catch (Exception e) {
-//			throw new UserException("Failed to create user with picture");
-//		}
-//	}
+
 	
 
 	

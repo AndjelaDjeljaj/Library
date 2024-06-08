@@ -31,4 +31,21 @@ public class CountryService {
 	public List<Country> getAllCountries(){
 		return em.createNamedQuery(Country.GET_ALL, Country.class).getResultList();
 	}
+	
+	
+//	@Transactional
+//	public Country getCountryById(Long countryId) {
+//		return em.find(Country.class, countryId);
+//	}
+	
+    @Transactional
+    public Country getCountryByName(String countryName) {
+        List<Country> countries = em.createNamedQuery(Country.GET_ALL, Country.class).getResultList();
+        for (Country country : countries) {
+            if (country.getName().equalsIgnoreCase(countryName)) {
+                return country;
+            }
+        }
+        return null;
+    }
 }

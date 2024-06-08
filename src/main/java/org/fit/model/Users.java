@@ -4,6 +4,8 @@ package org.fit.model;
 import java.util.Date;
 import java.util.Set;
 
+import org.fit.model.rest.client.Country;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -14,6 +16,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
@@ -41,9 +44,8 @@ public class Users {
 	
 	private String jmbg;
 	
-//	@Lob
-//	@JsonIgnore
-//	private byte[] image;
+	@Lob
+	private byte[] image;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
@@ -58,6 +60,10 @@ public class Users {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JsonIgnore
 	private IPLog ipLog;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "country_id")
+	private Country country;
 
 	public Long getId() {
 		return id;
@@ -125,13 +131,13 @@ public class Users {
 	}
 
 
-//	public byte[] getImage() {
-//		return image;
-//	}
-//
-//	public void setImage(byte[] image) {
-//		this.image = image;
-//	}
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
 
 	public IPLog getIpLog() {
 		return ipLog;
@@ -140,6 +146,14 @@ public class Users {
     public void setIpLog(IPLog ipLog) {
         this.ipLog = ipLog;
     }
+
+	public Country getCountry() {
+		return country;
+	}
+
+	public void setCountry(Country country) {
+		this.country = country;
+	}
 
 	@Override
 	public int hashCode() {
