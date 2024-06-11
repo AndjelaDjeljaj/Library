@@ -46,6 +46,7 @@ public class Users {
 	
 	@Lob
 	private byte[] image;
+	
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
@@ -61,7 +62,7 @@ public class Users {
 	@JsonIgnore
 	private IPLog ipLog;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "country_id")
 	private Country country;
 

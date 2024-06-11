@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,7 +26,8 @@ public class Genre {
 
 	public static final String GET_ALL_GENRES = "getAllGenres";
 
-	@ManyToMany(mappedBy = "genres", cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "genres")
+	@JsonIgnore
 	private Set<Book> books = new HashSet<>();
 	
 	public Long getId() {
@@ -41,6 +44,14 @@ public class Genre {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Set<Book> getBooks() {
+		return books;
+	}
+
+	public void setBooks(Set<Book> books) {
+		this.books = books;
 	}
 
 	@Override

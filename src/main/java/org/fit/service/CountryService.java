@@ -33,10 +33,7 @@ public class CountryService {
 	}
 	
 	
-//	@Transactional
-//	public Country getCountryById(Long countryId) {
-//		return em.find(Country.class, countryId);
-//	}
+
 	
     @Transactional
     public Country getCountryByName(String countryName) {

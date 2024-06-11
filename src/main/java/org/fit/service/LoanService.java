@@ -83,6 +83,7 @@ public class LoanService {
 		for (Loan loan : loans) {
 			if (loan.getReturnDate() != null && loan.getReturnDate().toLocalDate().isBefore(today) && !loan.isReturned()) {
 				loan.setReturned(true);
+				loan.getBook().setQuantity(loan.getBook().getQuantity()+1);;
 				em.merge(loan);
 			}
 		}

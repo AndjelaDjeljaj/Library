@@ -39,7 +39,7 @@ public class Book {
 	@JoinColumn(name = "author_id")
 	private Author author;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
 	@JoinTable(name = "Book_genre", joinColumns = { @JoinColumn(name = "book_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "genre_id") })
 	Set<Genre> genres = new HashSet<>();
@@ -118,7 +118,5 @@ public class Book {
 				+ ", pricePerMonth=" + pricePerMonth + ", author=" + author + ", genres=" + genres + ", loans=" + loans
 				+ "]";
 	}
-
-
 
 }

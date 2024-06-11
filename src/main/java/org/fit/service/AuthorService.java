@@ -1,10 +1,14 @@
 package org.fit.service;
 
+
 import java.util.List;
 
 import org.fit.enums.AuthorStatus;
 import org.fit.exception.AuthorException;
 import org.fit.model.Author;
+import org.fit.model.Book;
+import org.fit.model.Genre;
+import org.fit.model.Loan;
 
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
@@ -39,6 +43,35 @@ public class AuthorService {
 		if(author == null) {
 			throw new AuthorException("Author with id " + authorId + " not found.");
 		}
-	    em.remove(author);
+		
+        // Disassociate books from the author and delete the books
+        for (Book book : author.getBooks()) {
+            // Do not remove genre associations
+           
+        	  for (Loan loan : book.getLoans()) {
+                  em.remove(loan);
+              }
+              // Remove loan associations
+              book.getLoans().clear();
+            
+            for (Genre genre : book.getGenres()) {
+				genre.getBooks().remove(book);
+				em.merge(genre);
+			}
+            
+            book.getGenres().clear();
+            
+          
+
+            // Remove the book
+            em.remove(book);
+      }
+
+        // Clear the author's books collection
+        author.getBooks().clear();
+        em.merge(author);
+
+        // Remove the author
+        em.remove(author);
 	}
 }

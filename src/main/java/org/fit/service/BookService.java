@@ -9,6 +9,7 @@ import org.fit.exception.BookException;
 import org.fit.model.Author;
 import org.fit.model.Book;
 import org.fit.model.Genre;
+import org.fit.model.Loan;
 
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
@@ -61,6 +62,19 @@ public class BookService {
 		if(book == null) {
 			throw new BookException("Book with id " + bookId + " not found.");
 		}
+		
+	    // Disassociate book from genres
+	    for (Genre genre : book.getGenres()) {
+	        genre.getBooks().remove(book);  // Remove the book from genre's book list
+	        em.merge(genre);  // Merge the changes to update the genre
+	    }
+	    book.getGenres().clear();  // Clear the book's genre associations
+	    // Disassociate book from loans
+	    for (Loan loan : book.getLoans()) {
+	    	  em.remove(loan);
+	    }
+	    book.getLoans().clear(); 
+	    
 		em.remove(book);
 	}
 	
@@ -78,11 +92,5 @@ public class BookService {
 			throw new BookException("Error updating book quantity: " + e.getMessage());
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
+
 }
